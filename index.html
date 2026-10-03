@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>10 Free Online Tools</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f4f7fb;color:#172033}
+header{background:linear-gradient(135deg,#2563eb,#7c3aed);color:white;text-align:center;padding:38px 15px}
+header h1{margin:0 0 10px;font-size:34px}header p{margin:0;font-size:16px}
+.container{max-width:1100px;margin:25px auto;padding:0 15px}
+.tools{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
+.card{background:white;border-radius:16px;padding:20px;box-shadow:0 5px 18px #00000012}
+.card h2{font-size:20px;margin:0 0 15px}.card input,.card textarea,.card select{width:100%;padding:11px;border:1px solid #ccd3df;border-radius:9px;margin:6px 0;font-size:15px}
+.card textarea{min-height:100px;resize:vertical}.btn{border:0;background:#2563eb;color:white;padding:11px 15px;border-radius:9px;cursor:pointer;margin:5px 3px 5px 0}.btn:hover{opacity:.9}
+.result{background:#eef4ff;padding:10px;border-radius:9px;margin-top:8px;word-break:break-word}.muted{color:#667085;font-size:13px}
+footer{text-align:center;padding:30px;color:#667085}
+</style>
+</head>
+<body>
+<header><h1>10 Free Online Tools</h1><p>Simple, fast and free tools for everyday use</p></header>
+<div class="container"><div class="tools">
+
+<div class="card"><h2>1. Word Counter</h2><textarea id="wc" placeholder="Type or paste your text..."></textarea><div class="result" id="wcResult">Words: 0 | Characters: 0</div></div>
+
+<div class="card"><h2>2. Age Calculator</h2><input type="date" id="dob"><button class="btn" onclick="ageCalc()">Calculate Age</button><div class="result" id="ageResult">Enter your date of birth.</div></div>
+
+<div class="card"><h2>3. Image Compressor</h2><input type="file" id="imgFile" accept="image/*"><select id="quality"><option value=".8">High quality</option><option value=".6">Medium quality</option><option value=".4">Small size</option></select><button class="btn" onclick="compressImage()">Compress</button><div class="result" id="imgResult">Choose an image.</div></div>
+
+<div class="card"><h2>4. Password Generator</h2><input type="number" id="passLen" value="12" min="4" max="50"><button class="btn" onclick="genPass()">Generate Password</button><div class="result" id="passResult">Your password will appear here.</div></div>
+
+<div class="card"><h2>5. Percentage Calculator</h2><input type="number" id="p1" placeholder="Percentage"><input type="number" id="p2" placeholder="Number"><button class="btn" onclick="percentCalc()">Calculate</button><div class="result" id="percentResult">Result will appear here.</div></div>
+
+<div class="card"><h2>6. Calculator</h2><input type="text" id="calc" placeholder="Example: 25*4+10"><button class="btn" onclick="calculate()">Calculate</button><div class="result" id="calcResult">Result will appear here.</div></div>
+
+<div class="card"><h2>7. QR Code Generator</h2><input id="qrText" placeholder="Enter text or URL"><button class="btn" onclick="makeQR()">Generate QR</button><div class="result" id="qrResult"></div></div>
+
+<div class="card"><h2>8. Countdown Timer</h2><input type="datetime-local" id="endTime"><button class="btn" onclick="startCountdown()">Start Countdown</button><div class="result" id="timerResult">Set a date and time.</div></div>
+
+<div class="card"><h2>9. Text Case Converter</h2><textarea id="caseText" placeholder="Enter text..."></textarea><button class="btn" onclick="toUpper()">UPPERCASE</button><button class="btn" onclick="toLower()">lowercase</button><button class="btn" onclick="toTitle()">Title Case</button></div>
+
+<div class="card"><h2>10. Unit Converter</h2><input type="number" id="unitVal" placeholder="Value"><select id="unitType"><option value="kmmi">Kilometers → Miles</option><option value="mift">Meters → Feet</option><option value="kgp">Kilograms → Pounds</option><option value="cf">Celsius → Fahrenheit</option></select><button class="btn" onclick="convertUnit()">Convert</button><div class="result" id="unitResult">Result will appear here.</div></div>
+
+</div></div>
+<footer>© 2026 10 Free Online Tools</footer>
+
+<script>
+const $=id=>document.getElementById(id);
+$('wc').addEventListener('input',()=>{let t=$('wc').value;let w=t.trim()?t.trim().split(/\s+/).length:0;$('wcResult').textContent=`Words: ${w} | Characters: ${t.length}`});
+
+function ageCalc(){let d=new Date($('dob').value);if(isNaN(d)){return $('ageResult').textContent='Please enter a valid date.'}let n=new Date(),a=n.getFullYear()-d.getFullYear();let m=n.getMonth()-d.getMonth();if(m<0||(m===0&&n.getDate()<d.getDate()))a--; $('ageResult').textContent=`Age: ${a} years`}
+
+function compressImage(){let f=$('imgFile').files[0];if(!f)return $('imgResult').textContent='Please choose an image.';let r=new FileReader();r.onload=e=>{let im=new Image();im.onload=()=>{let c=document.createElement('canvas'),x=c.getContext('2d');c.width=im.width;c.height=im.height;x.drawImage(im,0,0);c.toBlob(b=>{let u=URL.createObjectURL(b);$('imgResult').innerHTML=`Original: ${(f.size/1024).toFixed(1)} KB<br>Compressed: ${(b.size/1024).toFixed(1)} KB<br><a href="${u}" download="compressed-image.jpg">Download compressed image</a>`},'image/jpeg',parseFloat($('quality').value))};im.src=e.target.result};r.readAsDataURL(f)}
+
+function genPass(){let n=Math.max(4,Math.min(50,parseInt($('passLen').value)||12)),chars='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*',p='';for(let i=0;i<n;i++)p+=chars[Math.floor(Math.random()*chars.length)];$('passResult').textContent=p}
+function percentCalc(){let a=parseFloat($('p1').value),b=parseFloat($('p2').value);$('percentResult').textContent=isNaN(a)||isNaN(b)?'Enter both numbers.':`${a}% of ${b} = ${(a*b/100)}`}
+function calculate(){let s=$('calc').value;if(!/^[0-9+\-*/().%\s]+$/.test(s))return $('calcResult').textContent='Only basic math is allowed.';try{$('calcResult').textContent=Function('"use strict";return ('+s+')')()}catch(e){$('calcResult').textContent='Invalid calculation.'}}
+function makeQR(){let t=$('qrText').value.trim();if(!t)return $('qrResult').textContent='Enter text or a URL.';$('qrResult').innerHTML=`<img alt="QR Code" width="180" src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(t)}">`}
+let timer;function startCountdown(){clearInterval(timer);let end=new Date($('endTime').value).getTime();if(isNaN(end))return $('timerResult').textContent='Choose a date and time.';timer=setInterval(()=>{let d=end-Date.now();if(d<=0){clearInterval(timer);return $('timerResult').textContent='Time is up!'}let s=Math.floor(d/1000),days=Math.floor(s/86400);s%=86400;let h=Math.floor(s/3600);s%=3600;let m=Math.floor(s/60);s%=60;$('timerResult').textContent=`${days}d ${h}h ${m}m ${s}s`},1000)}
+function toUpper(){$('caseText').value=$('caseText').value.toUpperCase()}function toLower(){$('caseText').value=$('caseText').value.toLowerCase()}function toTitle(){$('caseText').value=$('caseText').value.toLowerCase().replace(/\b\w/g,c=>c.toUpperCase())}
+function convertUnit(){let v=parseFloat($('unitVal').value),t=$('unitType').value;if(isNaN(v))return $('unitResult').textContent='Enter a number.';let r=t==='kmmi'?v*.621371:t==='mift'?v*3.28084:t==='kgp'?v*2.20462:t==='cf'?(v*9/5)+32:v;$('unitResult').textContent=`Result: ${r.toFixed(4)}`}
+</script>
+</body>
+</html>
